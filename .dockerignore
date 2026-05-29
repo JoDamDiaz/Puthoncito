@@ -1,0 +1,11 @@
+apivenv/
+.env
+.git/
+.claude/
+__pycache__/
+*.pyc
+*.pyo
+Dockerfile.db
+docker-compose.yml
+docker/
+seed.py

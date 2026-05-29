@@ -9,8 +9,47 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="API Registro de Mascotas",
-    description="CRUD de perros y gatos con FastAPI + MySQL",
-    version="1.0.0",
+    description="""
+## Descripción
+API REST para el registro y gestión de mascotas (perros y gatos) con recomendaciones de cuidado personalizadas generadas por IA.
+
+## Tecnologías
+- **FastAPI** — framework web
+- **MySQL + SQLAlchemy** — persistencia de datos
+- **Claude (Anthropic)** — recomendaciones veterinarias con IA
+
+## Recursos
+
+### 🐶 Perros `/dogs`
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/dogs/` | Listar todos los perros |
+| GET | `/dogs/{id}` | Obtener un perro por ID |
+| POST | `/dogs/` | Registrar un nuevo perro |
+| PUT | `/dogs/{id}` | Actualizar datos de un perro |
+| DELETE | `/dogs/{id}` | Eliminar un perro |
+| GET | `/dogs/breeds/count` | Conteo de perros por raza |
+| GET | `/dogs/{id}/recommendations` | Recomendaciones de cuidado por IA |
+
+### 🐱 Gatos `/cats`
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/cats/` | Listar todos los gatos |
+| GET | `/cats/{id}` | Obtener un gato por ID |
+| POST | `/cats/` | Registrar un nuevo gato |
+| PUT | `/cats/{id}` | Actualizar datos de un gato |
+| DELETE | `/cats/{id}` | Eliminar un gato |
+| GET | `/cats/breeds/count` | Conteo de gatos por raza |
+| GET | `/cats/{id}/recommendations` | Recomendaciones de cuidado por IA |
+""",
+    version="1.1.0",
+    contact={
+        "name": "Daniel Miranda",
+        "email": "daniel.miranda.diaz@gmail.com",
+    },
+    license_info={
+        "name": "MIT",
+    },
     docs_url="/docs",
     redoc_url="/redoc",
 )
