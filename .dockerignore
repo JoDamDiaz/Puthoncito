@@ -8,4 +8,5 @@ __pycache__/
 Dockerfile.db
 docker-compose.yml
 docker/
+mysql/
 seed.py
