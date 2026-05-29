@@ -1,9 +1,12 @@
 from fastapi import FastAPI
+from fastapi.security import OAuth2PasswordBearer
 from app.database import Base, engine
 from app.routes.dog_routes import router as dog_router
 from app.routes.cat_routes import router as cat_router
-import app.models.dog  # noqa: F401
-import app.models.cat  # noqa: F401
+from app.routes.auth_routes import router as auth_router
+import app.models.dog   # noqa: F401
+import app.models.cat   # noqa: F401
+import app.models.user  # noqa: F401
 
 Base.metadata.create_all(bind=engine)
 
@@ -42,7 +45,7 @@ API REST para el registro y gestión de mascotas (perros y gatos) con recomendac
 | GET | `/cats/breeds/count` | Conteo de gatos por raza |
 | GET | `/cats/{id}/recommendations` | Recomendaciones de cuidado por IA |
 """,
-    version="1.1.0",
+    version="1.2.0",
     contact={
         "name": "Daniel Miranda",
         "email": "daniel.miranda.diaz@gmail.com",
@@ -54,5 +57,6 @@ API REST para el registro y gestión de mascotas (perros y gatos) con recomendac
     redoc_url="/redoc",
 )
 
+app.include_router(auth_router)
 app.include_router(dog_router)
 app.include_router(cat_router)

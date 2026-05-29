@@ -21,3 +21,11 @@ CREATE TABLE IF NOT EXISTS cats (
     sex     ENUM('macho', 'hembra')   NOT NULL,
     owner   VARCHAR(150)              NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS users (
+    id               INT AUTO_INCREMENT PRIMARY KEY,
+    username         VARCHAR(50)  NOT NULL UNIQUE,
+    email            VARCHAR(150) NOT NULL UNIQUE,
+    hashed_password  VARCHAR(255) NOT NULL,
+    is_active        BOOLEAN      NOT NULL DEFAULT TRUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

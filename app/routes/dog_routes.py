@@ -2,11 +2,16 @@ from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from app.database import get_db
+from app.dependencies import get_current_user
 from app.services.dog_service import DogService
 from app.services.recommendation_service import recommendation_service
 from app.schemas.dog import DogCreate, DogUpdate, DogResponse, BreedCount
 
-router = APIRouter(prefix="/dogs", tags=["Perros"])
+router = APIRouter(
+    prefix="/dogs",
+    tags=["Perros"],
+    dependencies=[Depends(get_current_user)],
+)
 
 
 @router.get("/breeds/count", response_model=List[BreedCount])

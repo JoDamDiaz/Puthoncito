@@ -2,11 +2,16 @@ from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from app.database import get_db
+from app.dependencies import get_current_user
 from app.services.cat_service import CatService
 from app.services.cat_recommendation_service import cat_recommendation_service
 from app.schemas.cat import CatCreate, CatUpdate, CatResponse, BreedCount
 
-router = APIRouter(prefix="/cats", tags=["Gatos"])
+router = APIRouter(
+    prefix="/cats",
+    tags=["Gatos"],
+    dependencies=[Depends(get_current_user)],
+)
 
 
 @router.get("/breeds/count", response_model=List[BreedCount])
