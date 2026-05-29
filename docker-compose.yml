@@ -2,20 +2,35 @@ services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile.db
-    container_name: perritos_db
-    ports:
-      - "3306:3306"
-    volumes:
-      - perritos_data:/var/lib/mysql
+      dockerfile: Dockerfile.mysql
     environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: perritos
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-perritos}
+    volumes:
+      - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-usecret", "-psecret"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-secret}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+
+  app:
+    build: .
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    environment:
+      MYSQLHOST: db
+      MYSQLPORT: 3306
+      MYSQLUSER: root
+      MYSQLPASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
+      MYSQLDATABASE: ${MYSQL_DATABASE:-perritos}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      PORT: ${PORT:-8000}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
-  perritos_data:
+  db_data:
